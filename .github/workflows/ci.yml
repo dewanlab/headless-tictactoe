@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['20.x', '22.x']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run typecheck
+        run: npm run typecheck
+
+      - name: Run unit & integration tests
+        run: npm run test:run
+
+      - name: Build production bundles
+        run: npm run build
+
+      - name: Runtime ESM smoke test
+        run: |
+          node --input-type=module -e "
+            import { TicTacToe, createGame } from './dist/index.mjs';
+            import { getBestMove } from './dist/ai.mjs';
+            const game = new TicTacToe();
+            game.makeMove(4);
+            const bestMove = getBestMove(game.getState());
+            if (bestMove === null) throw new Error('Smoke test failed: expected valid bot move');
+            console.log('ESM smoke test passed. Bot move:', bestMove);
+          "
+
+      - name: Runtime CJS smoke test
+        run: |
+          node -e "
+            const { TicTacToe, createGame } = require('./dist/index.cjs');
+            const { getBestMove } = require('./dist/ai.cjs');
+            const game = new TicTacToe();
+            game.makeMove(4);
+            const bestMove = getBestMove(game.getState());
+            if (bestMove === null) throw new Error('Smoke test failed: expected valid bot move');
+            console.log('CJS smoke test passed. Bot move:', bestMove);
+          "
+
+      - name: Package tarball audit
+        run: npm pack --dry-run
