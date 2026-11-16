@@ -1,0 +1,51 @@
+{
+  "name": "headless-tictactoe",
+  "version": "0.1.0",
+  "description": "Zero-dependency, headless Tic-Tac-Toe state machine and Minimax AI engine in TypeScript for CLI, web UI, and multiplayer servers.",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run --passWithNoTests",
+    "prepublishOnly": "npm run typecheck && npm run test:run && npm run build"
+  },
+  "keywords": [
+    "tic-tac-toe",
+    "tictactoe",
+    "headless",
+    "state-machine",
+    "game-engine",
+    "minimax",
+    "typescript"
+  ],
+  "author": "Abdullah Dewan <hello@abdullahdewan.com> (https://abdullahdewan.com)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dewanlab/headless-tictactoe.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dewanlab/headless-tictactoe/issues"
+  },
+  "homepage": "https://github.com/dewanlab/headless-tictactoe#readme",
+  "devDependencies": {
+    "tsup": "^9.0.0",
+    "typescript": "^5.9.3",
+    "vitest": "^5.1.0"
+  }
+}
