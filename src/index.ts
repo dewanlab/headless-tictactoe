@@ -4,3 +4,4 @@ export type * from './types';
 export * from './constants';
 export * from './evaluator';
 export * from './core';
+export * from './engine';
