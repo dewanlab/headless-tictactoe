@@ -15,13 +15,19 @@ export function getNextPlayer(player: Player): Player {
 }
 
 export function createGame(options?: GameOptions): GameState {
-  const startingPlayer = options?.startingPlayer ?? DEFAULT_STARTING_PLAYER;
-
-  if (startingPlayer !== 'X' && startingPlayer !== 'O') {
-    throw new RangeError(
-      `Invalid starting player: ${String(startingPlayer)}. Expected 'X' or 'O'.`
-    );
+  if (
+    options !== undefined &&
+    'startingPlayer' in options &&
+    options.startingPlayer !== undefined
+  ) {
+    if (options.startingPlayer !== 'X' && options.startingPlayer !== 'O') {
+      throw new RangeError(
+        `Invalid starting player: ${String(options.startingPlayer)}. Expected 'X' or 'O'.`
+      );
+    }
   }
+
+  const startingPlayer = options?.startingPlayer ?? DEFAULT_STARTING_PLAYER;
 
   return Object.freeze({
     board: INITIAL_BOARD,

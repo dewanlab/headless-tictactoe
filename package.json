@@ -21,7 +21,7 @@
     "build": "tsup",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
-    "test:run": "vitest run --passWithNoTests",
+    "test:run": "vitest run",
     "prepublishOnly": "npm run typecheck && npm run test:run && npm run build"
   },
   "keywords": [
