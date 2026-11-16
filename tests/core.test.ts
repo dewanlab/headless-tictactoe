@@ -10,6 +10,7 @@ import {
   isGameOver,
   isValidMove,
   makeMove,
+  PACKAGE_VERSION,
   redoMove,
   resetGame,
   serializeState,
@@ -19,6 +20,12 @@ import {
 import type { GameOptions, GameState, Player } from '../src';
 
 describe('core state machine', () => {
+  describe('package metadata', () => {
+    it('exports PACKAGE_VERSION matching 1.0.0', () => {
+      expect(PACKAGE_VERSION).toBe('1.0.0');
+    });
+  });
+
   describe('getNextPlayer', () => {
     it('alternates between X and O', () => {
       expect(getNextPlayer('X')).toBe('O');

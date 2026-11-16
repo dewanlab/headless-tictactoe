@@ -1,11 +1,12 @@
 {
   "name": "headless-tictactoe",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Zero-dependency, headless Tic-Tac-Toe state machine and Minimax AI engine in TypeScript for CLI, web UI, and multiplayer servers.",
   "type": "module",
   "sideEffects": false,
   "files": [
-    "dist"
+    "dist",
+    "CHANGELOG.md"
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
